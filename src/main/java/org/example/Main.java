@@ -1,5 +1,23 @@
-package org.example;public class Main {
+package org.example;
+
+import java.time.LocalDateTime;
+
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Thread worker1 = new Thread(new Worker("Dmytro"));
+        Thread worker2 = new Thread(new Worker("Oleg"));
+        System.out.println("Потік " + Main.class.getSimpleName() + " стартував роботу - " + LocalDateTime.now());
+        worker1.start();
+        worker2.start();
+
+        try {
+            worker1.join();
+            worker2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Потік " + Main.class.getSimpleName() + " закінчив роботу - " + LocalDateTime.now());
+        System.out.println("Всі потоки завершили роботу");
+
     }
 }
